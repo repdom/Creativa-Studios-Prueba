@@ -5,7 +5,10 @@ npm install -g @angular/cli
 
 **ejecutar en el root del proyecto** 
 
-npm i
+1) npm i
+2) ng serve 
+
+**la aplicación estará disponible en el puerto 4200**
 
 # Book
 
