@@ -29,12 +29,22 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
               }
             ],
             "styles": [
-              "src/styles.sass"
+              "src/theme.less",
+              "src/styles.sass",
+              './node_modules/datatables.net-dt/css/dataTables.dataTables.css'
             ],
-            "scripts": []
+            "scripts": [
+              'node_modules/jquery/dist/jquery.slim.js',
+              'node_modules/datatables.net/js/dataTables.mjs'
+            ]
           },
           "configurations": {
             "production": {
@@ -98,5 +108,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "4282ec8c-dc18-404a-932f-4fb3af03ca4a"
   }
 }

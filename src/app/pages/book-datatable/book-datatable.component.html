@@ -1,0 +1,112 @@
+<button nz-button (click)="showModal()" nzType="primary">Add</button>
+<br />
+<br />
+
+<nz-table #sortTable style="width:100%"
+          [nzShowPagination]="true"
+          [nzFrontPagination]="false"
+          [nzSize]="'middle'"
+          [nzData]="booksPagination?.content!"
+          [nzTotal]="totalQuantity"
+          [nzPageSizeOptions]="[10, 20, 50, 100]"
+          (nzPageSizeChange)="tam = $event.valueOf(); bookPagination(page, tam, sortBy, this.sortDir, this.searchValue)"
+          (nzPageIndexChange)="page = $event.valueOf(); bookPagination(page, tam, sortBy, this.sortDir, this.searchValue)"
+          nzTableLayout="fixed">
+  <thead>
+  <tr>
+    @for (column of listOfColumn; track column) {
+      <th nzShowSort nzCustomFilter
+          [nzSortPriority]="column.priority"
+          (nzSortOrderChange)="sortDir = $event && $event === 'ascend' ? 'asc' : 'desc'; this.sortBy = column.dataIndex; this.bookPagination(page, tam, sortBy, this.sortDir, this.searchValue)">
+        {{ column.title }}
+        @if(column.title === 'Title') {
+          <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+            <span nz-icon nzType="search"></span>
+          </nz-filter-trigger>
+        }
+      </th>
+    }
+  </tr>
+  </thead>
+  <tbody>
+    @for (b of booksPagination?.content; track b) {
+      <tr>
+        <td>{{b.title}}</td>
+        <td>{{b.author}}</td>
+        <td>{{b.dateOfPublication | date}}</td>
+        <td>{{b.price | currency}}</td>
+        <td>
+          <a (click)="edit(b)">Edit</a>
+          |
+          <a nz-popconfirm nzPopconfirmTitle="Are you sure to delete the book?" [nzOkText]="'Accept'" [nzCancelText]="'Cancel'" (nzOnConfirm)="deleteRow(b)">Delete</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</nz-table>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" [nzOkDisabled]="!validateForm.valid" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="validateForm" class="login-form">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input the title!">
+          <nz-input-group nzPrefixIcon="book">
+            <input type="text" nz-input formControlName="title" placeholder="Title" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input the author!">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="author" placeholder="Author" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+<!--        <nz-form-label nzRequired >DatePicker</nz-form-label>-->
+        <nz-form-control nzErrorTip="Please input the publishing date!">
+          <nz-input-group nzPrefixIcon="clock-circle">
+            <nz-date-picker formControlName="dateOfPublication" nzShowTime  [nzPlaceHolder]="'Date of Publication'"></nz-date-picker>
+
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input the price!">
+          <nz-input-group nzPrefixIcon="money-collect">
+            <nz-input-number [nzMin]="1" [nzMax]="20000000" formControlName="price" [nzStep]="1"></nz-input-number>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+  </ng-container>
+</nz-modal>
+<!--<table id="example" class="display" style="width:100%">-->
+<!--  <thead>-->
+<!--  <tr>-->
+<!--    <th>Title</th>-->
+<!--    <th>Author</th>-->
+<!--    <th>Date Of Publication</th>-->
+<!--    <th>Price</th>-->
+<!--  </tr>-->
+<!--  </thead>-->
+<!--  <tbody>-->
+<!--    @for (b of books; track b.id) {-->
+<!--      <tr>-->
+<!--        <td>{{b.title}}</td>-->
+<!--        <td>{{b.author}}</td>-->
+<!--        <td>{{b.dateOfPublication | date}}</td>-->
+<!--        <td>{{b.price | currency}}</td>-->
+<!--      </tr>-->
+<!--    }-->
+<!--  </tbody>-->
+<!--</table>-->
