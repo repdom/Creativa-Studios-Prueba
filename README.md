@@ -1,3 +1,12 @@
+**Ejecutar con:**
+Node JS -> v20.12.2
+**Instalar**
+npm install -g @angular/cli
+
+**ejecutar en el root del proyecto** 
+
+npm i
+
 # Book
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.4.
